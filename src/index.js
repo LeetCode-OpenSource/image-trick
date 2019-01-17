@@ -12,7 +12,7 @@ program
   .option('-t, --text <text>', 'set shown text')
   .option('-s, --spliter <s>', 'set spliter')
   .option('-c, --codec <c>', 'set codec, default: "hex,base64", accept: [hex, base64, jwt] e.g. "hex,jwt"')
-  .option('-h, --height <h>', 'set height, e.g. 40 or 50%, and width will be computed to keep aspect ratio')
+  .option('-H, --height <h>', 'set height, e.g. 40 or 50%, and width will be computed to keep aspect ratio')
   .parse(process.argv)
 
 const imgUrl = program.image || 'https://upload.wikimedia.org/wikipedia/commons/d/d9/Edsger_Wybe_Dijkstra.jpg'
