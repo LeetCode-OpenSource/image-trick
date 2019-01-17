@@ -1,7 +1,9 @@
-const utf8 = require('./utf8')
+const hex = require('./hex')
 const base64 = require('./base64')
+const jwt = require('./jwt')
 
 module.exports = {
-  utf8,
-  base64
+  hex,
+  base64,
+  jwt
 }

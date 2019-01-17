@@ -3,7 +3,7 @@ const program = require('commander')
 const pkg = require('../package.json')
 
 const { composeCodec } = require('./compose')
-const { utf8, base64 } = require('./codec')
+const { hex, base64, jwt } = require('./codec')
 const { imgToAscii } = require('./img-to-ascii')
 
 program
@@ -11,13 +11,13 @@ program
   .option('-i, --image <image>', 'set source image, e.g. https://abc.com/d.jpg')
   .option('-t, --text <text>', 'set shown text')
   .option('-s, --spliter <s>', 'set spliter')
-  .option('-c, --codec <c>', 'set codec, default: "base64", accept: [base64, jwt] e.g. "base64,jwt"')
+  .option('-c, --codec <c>', 'set codec, default: "hex,base64", accept: [hex, base64, jwt] e.g. "hex,jwt"')
   .parse(process.argv)
 
 const imgUrl = program.image || 'https://upload.wikimedia.org/wikipedia/commons/d/d9/Edsger_Wybe_Dijkstra.jpg'
 const text = program.text || '测试数据'
 const spliter = program.spliter || '//////'
-const codecStr = program.codec || 'base64'
+const codecStr = program.codec || 'hex,base64'
 
 console.log(`
 Used args:
@@ -26,20 +26,28 @@ Used args:
 - text: ${text}
 - spliter: ${spliter}
 - codec: ${codecStr}
---------------------
-`)
+--------------------`)
 
 const codecMap = {
-  'base64': base64
+  'hex': hex,
+  'base64': base64,
+  'jwt': jwt
 }
 
 const codecs = codecStr.split(',').map((str) => {
   const codec = codecMap[str]
   if (!codec) throw new Error(`undefined codec: ${str}`)
   return codec
-})
+}).reverse()
 
-const { encode } = composeCodec(...codecs.concat(utf8))
+const { encode, decode } = composeCodec(...codecs)
 const code = encode(text)
+
+console.log(`
+----------------
+code: ${code}
+decoded: ${decode(code)}
+----------------
+`)
 
 imgToAscii(imgUrl, `${code}${spliter}`)
