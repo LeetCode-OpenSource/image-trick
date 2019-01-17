@@ -4,6 +4,7 @@ const imageToAscii = require('image-to-ascii')
 const stringify = require('asciify-pixel-matrix')
 
 function imgToAscii (imgUrl, text) {
+  console.log('fetching image...\n')
   imageToAscii(imgUrl, {
     bg: true,
     fg: false,
