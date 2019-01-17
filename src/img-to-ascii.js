@@ -3,14 +3,24 @@
 const imageToAscii = require('image-to-ascii')
 const stringify = require('asciify-pixel-matrix')
 
-function imgToAscii (imgUrl, text) {
-  console.log('fetching image...\n')
-  imageToAscii(imgUrl, {
+function imgToAscii (imgUrl, text, height) {
+  console.log('fetching and generating...\n')
+  const options = {
     bg: true,
     fg: false,
     stringify: false,
     concat: false
-  }, (err, converted) => {
+  }
+
+  if (height) {
+    Object.assign(options, {
+      size: {
+        height
+      }
+    })
+  }
+
+  imageToAscii(imgUrl, options, (err, converted) => {
     if (err) {
       console.error(err)
       return
