@@ -30,7 +30,7 @@ function imgToAscii (imgUrl, text, height) {
     let i = 0
     converted.forEach((cRow) => {
       cRow.forEach((px) => {
-        px.char = snip[i = ++i % snip.length]
+        px.char = snip[i++ % snip.length]
       })
     })
 
